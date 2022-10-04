@@ -22,7 +22,7 @@ def mp_detection(image, model):
     return image, results
 
 
-cap = cv2.VideoCapture(3)
+cap = cv2.VideoCapture(0)
 with mp_hands.Hands(
     max_num_hands=1, min_detection_confidence=0.5, min_tracking_confidence=0.5
 ) as Hands:
