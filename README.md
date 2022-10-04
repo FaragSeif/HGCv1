@@ -20,7 +20,7 @@
     A Hand Gesture Control system based on Google's Mediapipe and a custom model build on top of it for gesture classification.
     <br />
     <br />
-    <a href="https://github.com/SeifAbdElrhman/HGCv1">View Demo</a>
+    <a href="#demo">View Demo</a>
     ·
     <a href="https://github.com/SeifAbdElrhman/HGCv1/issues">Report Bug</a>
     ·
@@ -37,6 +37,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#demo">Demo</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -64,6 +65,11 @@
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 Place Holder
+
+### Demo
+
+![](https://github.com/SeifAbdElrhman/HGCv1/blob/main/extras/tracking.gif)
+
 
 ### Built With
 
