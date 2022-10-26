@@ -23,6 +23,12 @@ def mp_detection(image, model):
 
 
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FPS, 30)
+cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
+
+
 with mp_hands.Hands(
     max_num_hands=1, min_detection_confidence=0.5, min_tracking_confidence=0.5
 ) as Hands:
