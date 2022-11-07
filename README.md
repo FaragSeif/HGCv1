@@ -68,6 +68,7 @@ Place Holder
 
 ### Demo
 
+<img src="https://github.com/SeifAbdElrhman/HGCv1/blob/main/extras/tracking.gif" alt="demo">
 ![demo](https://github.com/SeifAbdElrhman/HGCv1/blob/main/extras/tracking.gif)
 
 
