@@ -68,7 +68,7 @@ Place Holder
 
 ### Demo
 
-![](https://github.com/SeifAbdElrhman/HGCv1/blob/main/extras/tracking.gif)
+![demo](https://github.com/SeifAbdElrhman/HGCv1/blob/main/extras/tracking.gif)
 
 
 ### Built With
