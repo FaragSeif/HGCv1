@@ -3,7 +3,6 @@ import os
 import numpy as np
 import mediapipe as mp
 
-
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
 mp_draw_style = mp.solutions.drawing_styles
@@ -15,18 +14,17 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 cap.set(cv2.CAP_PROP_FPS, 30)
 cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 
+data_path = os.path.join("dataset")
+actions = np.array(["front", "back", "right", "left", "stop"])
+no_sequences = 5
+sequence_length = 5
 
-data_path = os.path.join("mp_data")
-actions = np.array(["up", "down", "right", "left", "stop"])
-no_sequences = 20
-sequence_length = 20
 
 for action in actions:
-    for sequence in range(no_sequences):
-        try:
-            os.makedirs(os.path.join(data_path, action, str(sequence)))
-        except:
-            pass
+    try:
+        os.makedirs(os.path.join(data_path, action))
+    except:
+        pass
 
 
 def mp_detection(image, model):
@@ -56,6 +54,8 @@ with mp_hands.Hands(
 
                 # Read feed
                 ret, frame = cap.read()
+                print(frame.shape)
+
                 if not ret:
                     print("Ignoring empty camera frame.")
                     continue
@@ -104,7 +104,7 @@ with mp_hands.Hands(
                         1,
                         cv2.LINE_AA,
                     )
-                    cv2.waitKey(3000)
+                    # cv2.waitKey(500)
                 else:
                     cv2.putText(
                         image,
@@ -118,12 +118,13 @@ with mp_hands.Hands(
                         1,
                         cv2.LINE_AA,
                     )
+                    cv2.waitKey(500)
 
                 # show the image
                 cv2.imshow("Raw feed", image)
 
                 # export the key points
-                np_path = os.path.join(data_path, action, str(sequence), str(frame_num))
+                np_path = os.path.join(data_path, action, str(sequence)+str(frame_num))
                 np.save(np_path, all_kp_values)
 
                 # break the loop if 'q' is pressed
