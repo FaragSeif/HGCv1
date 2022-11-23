@@ -1,9 +1,12 @@
-from kp_classifier import KPClassifier
-import mediapipe as mp
-import numpy as np
-from utils import normalize_landmarks, draw_landmarks
-import cv2
 import os
+
+import cv2
+import numpy as np
+import mediapipe as mp
+
+from kp_classifier import KPClassifier
+from mp_stream import MPDetectionStream
+from utils import normalize_landmarks, draw_landmarks
 
 
 class HGClassifier:
@@ -17,40 +20,41 @@ class HGClassifier:
 
     commands: list of commands to map the labels to them.
     model_path: path to the keypoint classifier model.
-    min_detection_confidence: minimum confidence value for hand detection.
-    min_tracking_confidence: minimum confidence value for hand tracking.
-
     """
 
     default_map = {
-        0: "Forward",
+        0: "FORWARD",
         1: "STOP",
         2: "UP",
         3: "LAND",
         4: "DOWN",
-        5: "Back",
-        6: "Left",
-        7: "Right",
+        5: "BACK",
+        6: "LEFT",
+        7: "RIGHT",
     }
 
     def __init__(
         self,
         commands: list,
         model_path: str,
-        min_detection_confidence: float,
-        min_tracking_confidence: float,
     ) -> None:
-        # deifne model path, and mediapipe model parameters
-        self._init_model(
-            model_path,
-            min_detection_confidence,
-            min_tracking_confidence,
-        )
+
+        self.stream = MPDetectionStream(src=0)
+
         # if commands is not given by the user, use the default commands
         if commands is None:
             self.command_map = self.default_map
         else:
             self.command_map = {num: command for num, command in enumerate(commands)}
+
+        # check the model_path is valid
+        if model_path is None:
+            raise ValueError("model_path is None")
+        if not os.path.exists(model_path):
+            raise ValueError("model_path is not valid")
+        else:
+            # initialize the kp_classifier model
+            self.kp_classifier = KPClassifier(model_path)
 
     def detect(
         self,
@@ -106,27 +110,3 @@ class HGClassifier:
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         return image, results
-
-    def _init_model(
-        self, model_path: str, min_detection_confidence, min_tracking_confidence
-    ):
-        """
-        check the model_path is valid then initialize KPClassifier model
-        and mediapipe model
-        """
-        if model_path is None:
-            raise ValueError("model_path is None")
-        if not os.path.exists(model_path):
-            raise ValueError("model_path is not valid")
-        else:
-            # initialize the kp_classifier model
-            self.kp_classifier = KPClassifier(model_path)
-
-        # initialize mediapipe model
-        self.mp_hands = mp.solutions.hands
-        self.mp_draw = mp.solutions.drawing_utils
-        self.hand_model = self.mp_hands.Hands(
-            max_num_hands=1,
-            min_detection_confidence=min_detection_confidence,
-            min_tracking_confidence=min_tracking_confidence,
-        )
