@@ -29,14 +29,14 @@ class DroneController:
         # if the drone is not landing, send the command
         if not self._is_langding:
 
-            if command == "Forward":
+            if command == "FORWARD":
                 self.forward_backward_velocity = 10
-            elif command == "Back":
+            elif command == "BACK":
                 self.forward_backward_velocity = -10
 
-            elif command == "Left":
+            elif command == "LEFT":
                 self.left_right_velocity = -30
-            elif command == "Right":
+            elif command == "RIGHT":
                 self.left_right_velocity = 30
 
             elif command == "UP":
