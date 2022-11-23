@@ -86,7 +86,9 @@ class HGClassifier:
 
                 # draw the hand landmarks on the image
                 if draw_on_image:
-                    img = draw_landmarks(img, hand_landmarks, self.mp_hands, self.mp_draw, self.mp_draw_style)
+                    img = draw_landmarks(
+                        img, hand_landmarks, self.mp_hands, self.mp_draw
+                    )
 
                 # convert command number to command string
                 command = self.command_map[label]
