@@ -6,7 +6,7 @@ import mediapipe as mp
 
 from kp_classifier import KPClassifier
 from mp_stream import MPDetectionStream
-from utils import normalize_landmarks, draw_landmarks
+from utils import normalize_landmarks
 
 
 class HGClassifier:
@@ -58,55 +58,33 @@ class HGClassifier:
 
     def detect(
         self,
-        img: np.ndarray,
         draw_on_image: bool,
     ):
         """
-        detect hand gesture from a single image
-        pass it to tensor flow model and get the labels
+        detect hand landmarks from a single image, normalize it,
+        then pass it to tensor flow model and get the labels,
         map the labels to command and return the command
 
         parameters:
-            img: image to detect hand gesture from it.
             draw_on_image: if True, draw the landmarks on the image.
 
         returns:
             command: the predicted command.
             image: the image with the landmarks drawn on it.
-            resutls: the detected landmarks resutls.
-
         """
         # Make mediapipe detections
-        img, results = self._mp_detection(img)
+        img, landmarks = self.stream.read_frame(draw_landmarks=draw_on_image)
+        # get the normalized landmarks
+        landmark_list = normalize_landmarks(img, landmarks)
 
-        # if hand is detected
-        if results.multi_hand_landmarks:
-            for hand_landmarks in results.multi_hand_landmarks:
-                # get the normalized landmarks
-                landmark_list = normalize_landmarks(img, hand_landmarks)
+        # if no landmarks detected, return empty string and img
+        if landmark_list == []:
+            return "", img
 
-                # call kp_classifier to get the predicted labels
-                label = self.kp_classifier.predict(landmark_list)
+        # call kp_classifier to get the predicted labels
+        label = self.kp_classifier.predict(landmark_list)
 
-                # draw the hand landmarks on the image
-                if draw_on_image:
-                    img = draw_landmarks(
-                        img, hand_landmarks, self.mp_hands, self.mp_draw
-                    )
+        # convert command number to command string
+        command = self.command_map[label]
 
-                # convert command number to command string
-                command = self.command_map[label]
-
-            return command, img, results
-        return "", img, None
-
-    def _mp_detection(self, image: np.ndarray):
-        """
-        load mediapipe model, detect hand landmarks and return the image and results
-        """
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image.flags.writeable = False
-        results = self.hand_model.process(image)
-        image.flags.writeable = True
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        return image, results
+        return command, img
