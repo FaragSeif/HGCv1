@@ -86,7 +86,7 @@ class HGClassifier:
 
                 # draw the hand landmarks on the image
                 if draw_on_image:
-                    img = draw_landmarks(img, hand_landmarks)
+                    img = draw_landmarks(img, hand_landmarks, self.mp_hands, self.mp_draw, self.mp_draw_style)
 
                 # convert command number to command string
                 command = self.command_map[label]
@@ -123,6 +123,7 @@ class HGClassifier:
         # initialize mediapipe model
         self.mp_hands = mp.solutions.hands
         self.mp_draw = mp.solutions.drawing_utils
+        self.mp_draw_style = mp.solutions.drawing_styles
         self.hand_model = self.mp_hands.Hands(
             max_num_hands=1,
             min_detection_confidence=min_detection_confidence,
