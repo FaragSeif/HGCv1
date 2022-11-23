@@ -125,7 +125,6 @@ class HGClassifier:
         # initialize mediapipe model
         self.mp_hands = mp.solutions.hands
         self.mp_draw = mp.solutions.drawing_utils
-        self.mp_draw_style = mp.solutions.drawing_styles
         self.hand_model = self.mp_hands.Hands(
             max_num_hands=1,
             min_detection_confidence=min_detection_confidence,
