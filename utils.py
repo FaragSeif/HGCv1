@@ -82,3 +82,87 @@ def validate_landmarks_bounds(self, img: np.ndarray, landmarks):
         landmark_point.append([landmark_x, landmark_y])
     # return list of hand landmarks
     return landmark_point
+
+
+DrawingSpec = ds.DrawingSpec
+_RADIUS = ds._RADIUS
+_RED = ds._RED
+_GREEN = ds._GREEN
+_BLUE = ds._BLUE
+_YELLOW = ds._YELLOW
+_GRAY = ds._GRAY
+_PURPLE = ds._PURPLE
+_PEACH = ds._PEACH
+_WHITE = ds._WHITE
+
+# Hands
+_THICKNESS_WRIST_MCP = ds._THICKNESS_WRIST_MCP
+_THICKNESS_FINGER = ds._THICKNESS_FINGER
+_THICKNESS_DOT = ds._THICKNESS_DOT
+
+
+_HAND_LANDMARK_STYLE = {
+    ds._PALM_LANMARKS: DrawingSpec(
+        color=_RED, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
+    ),
+    ds._THUMP_LANDMARKS: DrawingSpec(
+        color=_PEACH, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
+    ),
+    ds._INDEX_FINGER_LANDMARKS: DrawingSpec(
+        color=_PURPLE, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
+    ),
+    ds._MIDDLE_FINGER_LANDMARKS: DrawingSpec(
+        color=_YELLOW, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
+    ),
+    ds._RING_FINGER_LANDMARKS: DrawingSpec(
+        color=_GREEN, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
+    ),
+    ds._PINKY_FINGER_LANDMARKS: DrawingSpec(
+        color=_BLUE, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
+    ),
+}
+
+_HAND_CONNECTION_STYLE = {
+    ds.hands_connections.HAND_PALM_CONNECTIONS: DrawingSpec(
+        color=_GRAY, thickness=_THICKNESS_WRIST_MCP
+    ),
+    ds.hands_connections.HAND_THUMB_CONNECTIONS: DrawingSpec(
+        color=_PEACH, thickness=_THICKNESS_FINGER
+    ),
+    ds.hands_connections.HAND_INDEX_FINGER_CONNECTIONS: DrawingSpec(
+        color=_PURPLE, thickness=_THICKNESS_FINGER
+    ),
+    ds.hands_connections.HAND_MIDDLE_FINGER_CONNECTIONS: DrawingSpec(
+        color=_YELLOW, thickness=_THICKNESS_FINGER
+    ),
+    ds.hands_connections.HAND_RING_FINGER_CONNECTIONS: DrawingSpec(
+        color=_GREEN, thickness=_THICKNESS_FINGER
+    ),
+    ds.hands_connections.HAND_PINKY_FINGER_CONNECTIONS: DrawingSpec(
+        color=_BLUE, thickness=_THICKNESS_FINGER
+    ),
+}
+
+
+def get_custom_style() -> Mapping[int, DrawingSpec]:
+    """Returns the default hand landmarks drawing style.
+    Returns:
+        A mapping from each hand landmark to its default drawing spec.
+    """
+    hand_landmark_style = {}
+    for k, v in _HAND_LANDMARK_STYLE.items():
+        for landmark in k:
+            hand_landmark_style[landmark] = v
+    return hand_landmark_style
+
+
+def get_custom_connections_style() -> Mapping[Tuple[int, int], DrawingSpec]:
+    """Returns the default hand connections drawing style.
+    Returns:
+        A mapping from each hand connection to its default drawing spec.
+    """
+    hand_connection_style = {}
+    for k, v in _HAND_CONNECTION_STYLE.items():
+        for connection in k:
+            hand_connection_style[connection] = v
+    return hand_connection_style
