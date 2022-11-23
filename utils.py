@@ -67,7 +67,7 @@ def normalize_landmarks(image: np.ndarray, results):
     return norm_landmark_list
 
 
-def validate_landmarks_bounds(self, img: np.ndarray, landmarks):
+def validate_landmarks_bounds(img: np.ndarray, landmarks):
     """
     extract the hand landmarks from the mediapipe results
     append the landmarks to a list and return it
