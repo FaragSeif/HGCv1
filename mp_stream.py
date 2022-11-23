@@ -1,12 +1,17 @@
 import cv2
 import mediapipe as mp
 
+from utils import get_custom_style, get_custom_connections_style
+
 
 class MPDetectionStream:
     def __init__(self, src=0):
         self.stream = cv2.VideoCapture(src)
         self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
         self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
+        self.custom_style = get_custom_style()
+        self.custom_connections_style = get_custom_connections_style()
 
         self.mp_draw = mp.solutions.drawing_utils
         self.mp_hands = mp.solutions.hands
@@ -25,7 +30,8 @@ class MPDetectionStream:
                     frame,
                     landmark,
                     self.mp_hands.HAND_CONNECTIONS,
-                    # TODO:
+                    self.custom_style,
+                    self.custom_connections_style,
                 )
         frame = cv2.flip(frame, 1)
         return frame, landmarks
