@@ -9,38 +9,22 @@ def main():
 
     # hand gesture classifier
     hg_classifier = HGClassifier(
-        commands=None,
-        model_path="models/keypoint_classifier.tflite",
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5,
+        commands=None, model_path="models/keypoint_classifier.tflite"
     )
     # drone controller
     drone_controller = DroneController(Tello())
     # gesture filter
     gesture_filter = GestureFilter()
 
-    # Initialize the webcam
-    cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-    cap.set(cv2.CAP_PROP_FPS, 30)
-    cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
-
     try:
         # drone takeoff
         drone_controller.tello.takeoff()
         while True:
 
-            # camera capture
-            ret, frame = cap.read()
-            if not ret:
-                continue
-
             # detect the hand gesture
-            command, image, _ = hg_classifier.detect(frame, draw_on_image=True)
+            command, image = hg_classifier.detect(draw_on_image=True)
 
             # Show the prediceted landmarks and command to screen
-            image = cv2.flip(image, 1)
             cv2.putText(
                 image,
                 "command: " + command,
@@ -63,12 +47,10 @@ def main():
             if cv2.waitKey(10) & 0xFF == ord("q"):
                 break
 
-        # release the camera
-        cap.release()
         cv2.destroyAllWindows()
 
-    # drone land and disconnect
-    except KeyboardInterrupt:
+    finally:
+        # drone land and disconnect
         drone_controller.tello.land()
         drone_controller.tello.end()
 
