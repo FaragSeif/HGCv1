@@ -1,7 +1,10 @@
-from collections import Counter, deque
-import numpy as np
-import itertools
 import copy
+import itertools
+from typing import Mapping, Tuple
+from collections import Counter, deque
+
+import numpy as np
+from mediapipe.python.solutions import drawing_styles as ds
 
 
 class GestureFilter:
@@ -35,52 +38,42 @@ def draw_landmarks(image: np.ndarray, hand_landmarks, mp_hands, mp_draw):
     return image
 
 
-def normalize_landmarks(image: np.ndarray, results):
-    """
-    normalize the landmarks to be in the range of 0 to 1
-    """
-    # get the landmarks
-    landmark_list = validate_landmarks_bounds(image, results)
+def normalize_landmarks(image, landmarks):
+    norm_landmark_list = []
+    for landmark in landmarks:
+        landmark_list = validate_landmarks_bounds(image, landmark)
+        temp_landmark_list = copy.deepcopy(landmark_list)
 
-    temp_landmark_list = copy.deepcopy(landmark_list)
+        # Convert to relative coordinates
+        base_x, base_y = 0, 0
+        for index, landmark_point in enumerate(temp_landmark_list):
+            if index == 0:
+                base_x, base_y = landmark_point[0], landmark_point[1]
 
-    # Convert to relative coordinates
-    base_x, base_y = 0, 0
-    for index, landmark_point in enumerate(temp_landmark_list):
-        if index == 0:
-            base_x, base_y = landmark_point[0], landmark_point[1]
-        temp_landmark_list[index][0] = temp_landmark_list[index][0] - base_x
-        temp_landmark_list[index][1] = temp_landmark_list[index][1] - base_y
+            temp_landmark_list[index][0] = temp_landmark_list[index][0] - base_x
+            temp_landmark_list[index][1] = temp_landmark_list[index][1] - base_y
 
-    # Convert to a one-dimensional list (flatten the list)
-    flat_landmark_list = list(itertools.chain.from_iterable(temp_landmark_list))
+        # Convert to a one-dimensional list (flatten the list)
+        flat_landmark_list = list(itertools.chain.from_iterable(temp_landmark_list))
 
-    # Normalization
-    max_value = max(list(map(abs, flat_landmark_list)))
+        # Normalization
+        max_value = max(list(map(abs, flat_landmark_list)))
 
-    def normalize_(n):
-        return n / max_value
+        norm_landmark_list += [n / max_value for n in flat_landmark_list]
 
-    norm_landmark_list = list(map(normalize_, flat_landmark_list))
-
-    # return the normalized landmarks
     return norm_landmark_list
 
 
-def validate_landmarks_bounds(self, img: np.ndarray, landmarks):
-    """
-    extract the hand landmarks from the mediapipe results
-    append the landmarks to a list and return it
-    """
+def validate_landmarks_bounds(image, landmarks):
     landmark_point = []
+    image_width, image_height = image.shape[1], image.shape[0]
 
-    image_width, image_height = img.shape[1], img.shape[0]
-    # Extracting the key points
-    for lm in landmarks.landmark:
-        landmark_x = min(int(lm.x * image_width), image_width - 1)
-        landmark_y = min(int(lm.y * image_height), image_height - 1)
+    # Keypoint
+    for _, landmark in enumerate(landmarks.landmark):
+        landmark_x = min(int(landmark.x * image_width), image_width - 1)
+        landmark_y = min(int(landmark.y * image_height), image_height - 1)
         landmark_point.append([landmark_x, landmark_y])
-    # return list of hand landmarks
+
     return landmark_point
 
 
