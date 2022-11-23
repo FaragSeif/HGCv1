@@ -9,6 +9,8 @@ class MPDetectionStream:
         self.stream = cv2.VideoCapture(src)
         self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
         self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        self.stream.set(cv2.CAP_PROP_FPS, 30)
+        self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
 
         self.custom_style = get_custom_style()
         self.custom_connections_style = get_custom_connections_style()
