@@ -19,14 +19,14 @@ class HGClassifier:
     """
 
     default_map = {
-        0: "FORWARD",
+        0: "LAND",
         1: "STOP",
-        2: "UP",
-        3: "LAND",
-        4: "DOWN",
-        5: "BACK",
-        6: "LEFT",
-        7: "RIGHT",
+        2: "FORWARD",
+        3: "BACK",
+        4: "UP",
+        5: "LEFT",
+        6: "RIGHT",
+        7: "TAKEOFF",
     }
 
     def __init__(
