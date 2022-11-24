@@ -1,5 +1,6 @@
 import os
 import logging
+
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models, callbacks
@@ -13,14 +14,14 @@ class KPClassifier:
     """
     A class to train, predict, save, and load gesture classifier model for mediapipe keypoints
     parameters:
-        NUM_CLASSES: number of classes to classify
+        NUM_LABELS: number of classes to classify
+        NUM_LABELS: number of classes to classify
     """
 
     def __init__(
         self,
         model_path=None,
         NUM_LABELS=7,
-        num_threads=1,
     ):
         self.trained = False
         self.model = None
@@ -44,7 +45,7 @@ class KPClassifier:
             # if extention == "hdf5":
             #     self.load(model_path)
             logging.info(' Loading TFLite model from "{}"'.format(model_path))
-            self.load(model_path, num_threads)
+            self.load(model_path)
 
     def load(self, model_path, num_threads=1):
         self.interpreter = tf.lite.Interpreter(

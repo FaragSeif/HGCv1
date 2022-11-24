@@ -1,13 +1,10 @@
 import os
 import csv
 import time
-import copy
 import logging
-import itertools
 from threading import Thread
 
 import cv2
-import numpy as np
 import mediapipe as mp
 
 from utils import normalize_landmarks

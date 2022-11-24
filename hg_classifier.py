@@ -1,9 +1,5 @@
 import os
 
-import cv2
-import numpy as np
-import mediapipe as mp
-
 from kp_classifier import KPClassifier
 from mp_stream import MPDetectionStream
 from utils import normalize_landmarks
