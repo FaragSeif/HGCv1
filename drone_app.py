@@ -18,13 +18,9 @@ def main():
     gesture_filter = GestureFilter()
 
     try:
-        # drone takeoff
-        drone_controller.tello.takeoff()
         while True:
-
             # detect the hand gesture
             command, image = hg_classifier.detect(draw_on_image=True)
-
             # Show the prediceted landmarks and command to screen
             cv2.putText(
                 image,
