@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 
-from utils import get_custom_style, get_custom_connections_style
+from utils.utils import get_custom_style, get_custom_connections_style
 
 
 class MPDetectionStream:

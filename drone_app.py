@@ -2,8 +2,8 @@ import cv2
 from djitellopy import Tello
 
 from utils import GestureFilter
-from hg_classifier import HGClassifier
-from drone_controller import DroneController
+from models.hg_classifier import HGClassifier
+from examples.drone_controller import DroneController
 
 
 def main():

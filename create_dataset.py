@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from kp_classifier import KPClassifier
+from models import KPClassifier
 from dataset_collection import DataCollector
 
 
@@ -48,7 +48,7 @@ def main():
         label_names=args.label_names,
         dataset_path=args.dataset_path,
     )
-    data_collector.collect()
+    # data_collector.collect()
 
     X_dataset = np.loadtxt(
         args.dataset_path,

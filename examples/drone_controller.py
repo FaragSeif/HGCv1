@@ -9,11 +9,9 @@ class DroneController:
 
     def __init__(self, tello: Tello, velocity: int = 50):
         self.tello = tello
-        # self.tello.TAKEOFF_TIMEOUT = 3
         # connect tello drone
         self.tello.connect()
         self._is_landing = False
-        self._is_flying = True
         # intialize the speed of the drone
         self.velocity = velocity
         self.forward_backward_velocity = 0

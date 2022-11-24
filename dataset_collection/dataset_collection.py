@@ -7,8 +7,8 @@ from threading import Thread
 import cv2
 import mediapipe as mp
 
-from utils import normalize_landmarks
-from mp_stream import MPDetectionStream
+from utils.utils import normalize_landmarks
+from utils.mp_stream import MPDetectionStream
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)
