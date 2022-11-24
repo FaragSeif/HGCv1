@@ -1,3 +1,4 @@
+import os
 import argparse
 
 import numpy as np
@@ -34,7 +35,7 @@ def argparser():
         "-db",
         "--dataset_path",
         type=str,
-        default="dataset.csv",
+        default="models/dataset.csv",
         help="Path to save the dataset",
     )
     return parser.parse_args()
@@ -48,7 +49,11 @@ def main():
         label_names=args.label_names,
         dataset_path=args.dataset_path,
     )
-    # data_collector.collect()
+    if os.path.isfile(args.dataset_path):
+        val = input("A csv file already exists in given path. Overwrite? (y/n): ")
+        if not val.lower() == "y":
+            raise Exception("Dataset already exists in given path, aborting...")
+        data_collector.collect()
 
     X_dataset = np.loadtxt(
         args.dataset_path,
