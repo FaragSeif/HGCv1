@@ -41,9 +41,6 @@ class KPClassifier:
             logging.info(" New model created")
             self.summary()
         else:
-            # extention = model_path.split(".")[-1]
-            # if extention == "hdf5":
-            #     self.load(model_path)
             logging.info(' Loading TFLite model from "{}"'.format(model_path))
             self.load(model_path)
 
@@ -81,23 +78,19 @@ class KPClassifier:
             patience (int, optional): Number of epochs to wait without improvement. Defaults to 10.
         """
         if os.path.isfile(model_save_path):
-            print(
-                "A Model in .hdf5 format already exists in given path. Overwrite? (y/n)"
+            val = input(
+                "A Model in .hdf5 format already exists in given path. Overwrite? (y/n): "
             )
-            val = input()
             if val.lower() == "y":
                 self.model.save(model_save_path, include_optimizer=False)
             else:
                 raise Exception("Model already exists in given path, aborting...")
 
         if os.path.isfile(tflite_save_path):
-            print(
-                "A Model in .tflite format already exists in given path. Overwrite? (y/n)"
+            val = input(
+                "A Model in .tflite format already exists in given path. Overwrite? (y/n): "
             )
-            val = input()
-            if val.lower() == "y":
-                pass
-            else:
+            if not val.lower() == "y":
                 raise Exception("Model already exists in given path, aborting...")
 
         cp_callback = tf.keras.callbacks.ModelCheckpoint(
