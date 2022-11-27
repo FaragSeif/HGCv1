@@ -33,9 +33,10 @@ class HGClassifier:
         self,
         commands: list,
         model_path: str,
+        src: int = 0,
     ) -> None:
 
-        self.stream = MPDetectionStream(src=0)
+        self.stream = MPDetectionStream(src=src)
 
         # if commands is not given by the user, use the default commands
         if commands is None:

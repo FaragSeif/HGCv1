@@ -78,7 +78,7 @@ def validate_landmarks_bounds(image, landmarks):
 
 
 DrawingSpec = ds.DrawingSpec
-_RADIUS = ds._RADIUS
+_RADIUS = ds._RADIUS - 1
 _RED = ds._RED
 _GREEN = ds._GREEN
 _BLUE = ds._BLUE
@@ -89,14 +89,14 @@ _PEACH = ds._PEACH
 _WHITE = ds._WHITE
 
 # Hands
-_THICKNESS_WRIST_MCP = ds._THICKNESS_WRIST_MCP
-_THICKNESS_FINGER = ds._THICKNESS_FINGER
-_THICKNESS_DOT = ds._THICKNESS_DOT
+_THICKNESS_WRIST_MCP = ds._THICKNESS_WRIST_MCP - 1
+_THICKNESS_FINGER = ds._THICKNESS_FINGER - 1
+_THICKNESS_DOT = ds._THICKNESS_DOT - 1
 
 
 _HAND_LANDMARK_STYLE = {
     ds._PALM_LANMARKS: DrawingSpec(
-        color=_RED, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
+        color=_GRAY, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
     ),
     ds._THUMP_LANDMARKS: DrawingSpec(
         color=_PEACH, thickness=_THICKNESS_DOT, circle_radius=_RADIUS
@@ -117,22 +117,22 @@ _HAND_LANDMARK_STYLE = {
 
 _HAND_CONNECTION_STYLE = {
     ds.hands_connections.HAND_PALM_CONNECTIONS: DrawingSpec(
-        color=_GRAY, thickness=_THICKNESS_WRIST_MCP
+        color=_WHITE, thickness=_THICKNESS_WRIST_MCP
     ),
     ds.hands_connections.HAND_THUMB_CONNECTIONS: DrawingSpec(
-        color=_PEACH, thickness=_THICKNESS_FINGER
+        color=_WHITE, thickness=_THICKNESS_FINGER
     ),
     ds.hands_connections.HAND_INDEX_FINGER_CONNECTIONS: DrawingSpec(
-        color=_PURPLE, thickness=_THICKNESS_FINGER
+        color=_WHITE, thickness=_THICKNESS_FINGER
     ),
     ds.hands_connections.HAND_MIDDLE_FINGER_CONNECTIONS: DrawingSpec(
-        color=_YELLOW, thickness=_THICKNESS_FINGER
+        color=_WHITE, thickness=_THICKNESS_FINGER
     ),
     ds.hands_connections.HAND_RING_FINGER_CONNECTIONS: DrawingSpec(
-        color=_GREEN, thickness=_THICKNESS_FINGER
+        color=_WHITE, thickness=_THICKNESS_FINGER
     ),
     ds.hands_connections.HAND_PINKY_FINGER_CONNECTIONS: DrawingSpec(
-        color=_BLUE, thickness=_THICKNESS_FINGER
+        color=_WHITE, thickness=_THICKNESS_FINGER
     ),
 }
 

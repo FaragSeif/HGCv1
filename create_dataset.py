@@ -32,7 +32,7 @@ def argparser():
         help="Names of the labels",
     )
     parser.add_argument(
-        "-db",
+        "-p",
         "--dataset_path",
         type=str,
         default="models/dataset.csv",
